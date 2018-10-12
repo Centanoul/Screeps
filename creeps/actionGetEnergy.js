@@ -3,7 +3,7 @@ TO DO:
 Source.prototype.getAccessPoints(){return adjacentFreeTiles}
 
 */
-require('../Structures/prototypeSource.js');
+require('../structure/prototypeSource.js');
 
 Creep.prototype.getEnergy = function () {
 	switch(1){
