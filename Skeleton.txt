@@ -1,0 +1,12 @@
+_init.js: First time initialization. Called when you first start the script to set memory on your rooms, and called when you build a spawn in a new room. Will probably become obsolete with automatic creep distribution.
+cache.js: Saving CPU by caching information / verifying the integrity of cache
+main.js: As little as possible
+creeps/actionGetEnergy.js: Teach roleCreeps how to collect energy. Priority: DroppedEnergy(hauler)>Tombstone(hauler)>Storage>ContainerNearSource>Source
+creeps/roleHarvester.js: Assign harvesters to a source, if container present acts as miner.
+creeps/roleHauler.js: Assigns haulers to refill spawn/extensions/storage.
+creeps/roleLogistics.js: Repairs roads/buildings/creeps
+creeps/role.Upgrader.js: Upgrades RCL
+hud/roomHUD.js: Draws HUD
+structure/roomSpawn.js: Spawn logic. Starts by respecting memory to distribute creeps, saturate sources with harvesters(or 1 miner if container present).
+structure/roomTower.js: Attack & Defend logic
+structure/prototypeSource.js: Source functions
