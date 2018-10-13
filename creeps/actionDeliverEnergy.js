@@ -1,0 +1,5 @@
+Creep.prototype.actionDeliverEnergy = function () {
+	
+	
+	
+}
