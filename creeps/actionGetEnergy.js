@@ -1,5 +1,6 @@
 require('../structure/prototypeSource.js');
 
+//Test each function for availability, if valid energy is found use it as a function lookup.
 Creep.prototype.getEnergy = function () {
 	switch(1){
 		case dropNRG(): dropNRG(1); break;

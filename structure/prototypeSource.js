@@ -1,5 +1,6 @@
+//Returns Int:AdjacentFreeTiles
 Source.prototype.getAccessPoints = function () {
-let points = 0;
+	let points = 0;
 	for (let x = -1; x < 2; x++) {
 		for (let y = -1; y < 2; y++){
 			let roomMap = Game.map.getRoomTerrain(this.room);
@@ -10,3 +11,15 @@ let points = 0;
 	}
 	return points;
 }
+
+//Returns Obj:Container
+Source.prototype.getContainer = function () {
+	if (this.memory.can != undefined){
+		var can = this.pos.findClosestByPath(FIND_STRUCTURES, {
+			filter: c => (c.structureType == STRUCTURE_CONTAINER
+		});
+		if (can != undefined){
+			this.memory.can = can.id;
+			return Game.getObjectByID(this.memory.can);
+		}
+	} else { return Game.getObjectByID(this.memory.can); }
