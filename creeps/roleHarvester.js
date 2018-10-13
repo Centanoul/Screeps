@@ -1,5 +1,5 @@
 require('../structure/prototypeSource.js');
-request('actionGetEnergy.js');
+require('actionDeliverEnergy.js');
  
  module.exports = {
 	run: function (creep) {
