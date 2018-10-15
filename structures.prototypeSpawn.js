@@ -193,3 +193,15 @@ StructureSpawn.prototype.NameSchema = function (role){
 		case ROLE_LOGISTICS:
 			return "Queen "+IDTag;
 }
+
+StructureSpawn.prototype.RepairCreeps = function (){
+	let room = this.room;
+    let creepsInRoom = room.find(FIND_MY_CREEPS);
+    let nearCreep = this.pos.findClosestByRange(FIND_MY_CREEPS, {
+		filter: c => (c.ticksToLive <= 500)
+	});
+	if (nearCreep!=undefined){
+		let tmp = nearCreep.ticksToLive;
+		if(!this.renewCreep(nearCreep)){nearCreep.say("🔧")};
+	}
+}
