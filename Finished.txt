@@ -1,8 +1,10 @@
 cache.js
 alliance/allies.js
 creeps/actionGetEnergy.js
+creeps/actionDeliverEnergy.js
 creeps/prototypeCreep.js
 creeps/roleHarvester.js
 structure/prototypeSource.js
 structure/prototypeTower.js
+structure/prototypeSpawn.js
 

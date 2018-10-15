@@ -13,7 +13,7 @@ StructureTower.prototype.defend = function () {
 StructureTower.prototype.repair = function () {
 	//Find damaged structures that are NOT walls or ramparts
     let targets = this.room.find(FIND_STRUCTURES, {
-        filter: (o) => o.hits < o.hitsMax && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
+        filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
     });
 	//Sort by damage
     targets.sort((a,b) => a.hits - b.hits);
