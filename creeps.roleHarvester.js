@@ -1,7 +1,7 @@
-require('../structure/prototypeSource.js');
+require('prototypeSource.js');
 require('actionDeliverEnergy.js');
  
- module.exports = {
+module.exports = {
 	run: function (creep) {
 		//Get source affinity
         let source = Game.getObjectById(creep.memory.affinity);
