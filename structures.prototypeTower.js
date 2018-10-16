@@ -1,4 +1,4 @@
-require('../alliance/allies.js');
+require('alliance.allies');
 
 StructureTower.prototype.defend = function () {
     //Find Hostile Creep
