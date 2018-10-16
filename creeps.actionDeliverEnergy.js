@@ -6,7 +6,7 @@ Creep.prototype.actionDeliverEnergy = function () {
 		case upgNRG(): upgNRG(1); break;
 		default: this.say("🚬"); break;
 	}
-}
+};
 
 function spawnNRG(live){
 	let nearSpawn = this.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_SPAWN && c.store[RESOURCE_ENERGY] < 300)});

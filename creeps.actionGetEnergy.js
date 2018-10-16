@@ -9,7 +9,7 @@ Creep.prototype.getEnergy = function () {
 		case canNRG(): canNRG(1); break;
 		default: srcNRG(1); break;
 	}
-}
+};
 
 function dropNRG(live){
 	//If Not Hauler, return invalid
