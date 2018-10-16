@@ -18,7 +18,7 @@ StructureTower.prototype.repair = function () {
 	//Sort by damage
     targets.sort((a,b) => a.hits - b.hits);
 	//If there is a valid target, and energy is over 50%, repair it
-    if(targets.length > 0 && this.energy > (this.energyCapacity/2) {
+    if(targets.length > 0 && this.energy > (this.energyCapacity/2){
         this.repair(targets[0]);
     }
 }

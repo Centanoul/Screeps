@@ -17,19 +17,19 @@ StructureSpawn.prototype.SpawnCreeps = function (){
 	switch(true){
 		case (this.energyAvailable >= NRGBP[ROLE_HARVESTER] &&
 				this.assessRoleCaps(ROLE_HARVESTER)): 
-				SpawnCustom(ROLE_HARVESTER);
+				SpawnCustomCreep(ROLE_HARVESTER);
 		break;
 		case (this.energyAvailable >= NRGBP[ROLE_HAULER] &&
 				this.assessRoleCaps(ROLE_HAULER)):  
-				SpawnCustom(ROLE_HAULER);
+				SpawnCustomCreep(ROLE_HAULER);
 		break;
 		case (this.energyAvailable >= NRGBP[ROLE_UPGRADER] &&
 				this.assessRoleCaps(ROLE_UPGRADER)):  
-				SpawnCustom(ROLE_UPGRADER);
+				SpawnCustomCreep(ROLE_UPGRADER);
 		break;
 		case (this.energyAvailable >= NRGBP[ROLE_LOGISTICS] &&
 				this.assessRoleCaps(ROLE_LOGISTICS)): 
-				SpawnCustom(ROLE_LOGISTICS);
+				SpawnCustomCreep(ROLE_LOGISTICS);
 		break;
 		default:
 		break;
@@ -93,15 +93,21 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
 		//LOGISTICS CAP MATH
 		if (!_.some(FIND_STRUCTURES, w => w.hits < w.hitsMax && (w.structureType == STRUCTURE_WALL && w.structureType == STRUCTURE_RAMPART))) {
 			roleCaps[ROLE_LOGISTICS] += 1;}
-		if (!_.some(FIND_STRUCTURES, s => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART))) {
+		if (!_.some(FIND_STRUCTURES, s => s.hits < s.hitsMax && (s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART)){
 			roleCaps[ROLE_LOGISTICS] += 1;}
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 0){ roleCaps[ROLE_LOGISTICS] += 1; }
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 5){ roleCaps[ROLE_LOGISTICS] += 1; }
-		if(_.sum(creepsInRoom, (c) => c.memory.role == ROLE_LOGISTICS) < roleCaps[ROLE_LOGISTICS]){ return true; } else { return false; }
+		let returnValue;
+		if(_.sum(creepsInRoom, (c) => c.memory.role == ROLE_LOGISTICS) < roleCaps[ROLE_LOGISTICS]){
+			returnValue=true;
+		} else {
+			returnValue=false;
+		}
 	}
+	return returnValue;
 }
 
-StructureSpawn.prototype.SpawnCustom = function (role){
+StructureSpawn.prototype.SpawnCustomCreep = function (role){
 	let body = [];
 	let mem = {role: "", task: ""}
 

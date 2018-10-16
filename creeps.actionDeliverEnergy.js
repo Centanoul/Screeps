@@ -9,9 +9,7 @@ Creep.prototype.actionDeliverEnergy = function () {
 }
 
 function spawnNRG(live){
-	let nearSpawn = this.pos.findClosestByPath(FIND_STRUCTURES, {
-		filter: c => (c.structureType == STRUCTURE_SPAWN && c.store[RESOURCE_ENERGY] < 300
-	});
+	let nearSpawn = this.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_SPAWN && c.store[RESOURCE_ENERGY] < 300)});
 	if (nearSpawn.length){
 		if (live = true){
 			if (this.transfer(nearSpawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -22,9 +20,7 @@ function spawnNRG(live){
 }
 
 function extNRG(live){
-	let nearExt = this.pos.findClosestByPath(FIND_STRUCTURES, {
-		filter: c => (c.structureType == STRUCTURE_EXTENSION && c.store[RESOURCE_ENERGY] < 50
-	});
+	let nearExt = this.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_EXTENSION && c.store[RESOURCE_ENERGY] < 50)});
 	if (nearExt.length){
 		if (live = true){
 			if (this.transfer(nearExt, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -46,9 +42,7 @@ function storageNRG(live){
 }
 
 function upgNRG(live){
-	let upgCan = this.pos.findClosestByPath(FIND_STRUCTURES, {
-		filter: c => (c.structureType == STRUCTURE_CONTAINER) && memory: {type: "UpgradeCan"}
-	});
+	let upgCan = this.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_CONTAINER) && memory: {type: "UpgradeCan"}});
 	if (upgCan.length) {
 		if (live = true){
 			if (this.transfer(upgCan, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {

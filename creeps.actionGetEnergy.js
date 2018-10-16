@@ -34,18 +34,14 @@ function graveNRG(live){
 	//If Not Hauler, return invalid
 	if (this.memory.role != "hauler"){ return 0; } 
 	//Find Tombstones
-	let graveEnergy = this.room.find(FIND_TOMBSTONES, {
-		filter: (t) => (t.store[RESOURCE_ENERGY] >= 50 && t.creep.my == true)
-	)};
+	let graveEnergy = this.room.find(FIND_TOMBSTONES, {filter: (t) => (t.store[RESOURCE_ENERGY] >= 50 && t.creep.my == true))};
 	//If Tombstone Exists, Try to withdraw from it.
 	if (graveEnergy.length) {
 		let transferGrave = this.withdraw(graveEnergy, RESOURCE_ENERGY);
 	} else { return 0; }
 	//If Tombstone Exists
 	if (graveEnergy.length > 0 && transferGrave == ERR_NOT_IN_RANGE) {
-		if (live == 1){
-			this.moveTo(graveEnergy[0]);
-		} else { return 1; }
+		if (live == 1){this.moveTo(graveEnergy[0]);} else { return 1; }
 	}
 }	
 	
@@ -67,9 +63,7 @@ function storeNRG(live){
 		
 function canNRG(live){
 	//Find Container with more than 250 Energy
-	let canEnergy = this.pos.findClosestByPath(FIND_STRUCTURES, {
-		filter: c => (c.structureType == STRUCTURE_CONTAINER && c.store[RESOURCE_ENERGY] > 250
-	});
+	let canEnergy = this.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_CONTAINER && c.store[RESOURCE_ENERGY] > 250});
 	if (canEnergy != undefined ) {
 		//If Found, Try to withdraw from it
 		let transferCan == this.withdraw(canEnergy, RESOURCE_ENERGY);
