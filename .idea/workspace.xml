@@ -33,23 +33,23 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="280" />
+          <entry key="js" value="281" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="280" />
+          <entry key="JavaScript" value="281" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/alliance.allies.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+            <state relative-caret-position="50">
+              <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -108,7 +108,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/creeps.roleUpgrader.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="625">
@@ -149,11 +149,11 @@
         <option value="$PROJECT_DIR$/creeps.roleHarvester.js" />
         <option value="$PROJECT_DIR$/creeps.roleLogistics.js" />
         <option value="$PROJECT_DIR$/structures.prototypeTower.js" />
-        <option value="$PROJECT_DIR$/alliance.allies.js" />
         <option value="$PROJECT_DIR$/creeps.actionDeliverEnergy.js" />
         <option value="$PROJECT_DIR$/creeps.actionGetEnergy.js" />
         <option value="$PROJECT_DIR$/creeps.prototypeCreep.js" />
         <option value="$PROJECT_DIR$/creeps.roleUpgrader.js" />
+        <option value="$PROJECT_DIR$/alliance.allies.js" />
       </list>
     </option>
   </component>
@@ -369,12 +369,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1539655380828</updated>
-      <workItem from="1539655382802" duration="6329000" />
+      <workItem from="1539655382802" duration="6386000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6329000" />
+    <option name="totallyTimeSpent" value="6386000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="3456" height="1416" extended-state="6" />
@@ -463,20 +463,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/alliance.allies.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/creeps.actionDeliverEnergy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="44" column="125" selection-start-line="44" selection-start-column="125" selection-end-line="44" selection-end-column="125" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/creeps.actionGetEnergy.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
@@ -495,6 +481,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="625">
           <caret line="25" column="2" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/creeps.actionDeliverEnergy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="596">
+          <caret line="44" column="125" selection-start-line="44" selection-start-column="125" selection-end-line="44" selection-end-column="125" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/alliance.allies.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
         </state>
       </provider>
     </entry>
