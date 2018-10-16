@@ -1,6 +1,6 @@
-require('prototypeSource.js');
-require('actionDeliverEnergy.js');
- 
+require("structures.prototypeSource");
+require("creeps.actionDeliverEnergy");
+
 module.exports = {
 	run: function (creep) {
 		//Get source affinity
@@ -28,6 +28,7 @@ module.exports = {
 					creep.memory.task = "gather";
 				break;
 			}
+			let harv;
 			switch (creep.memory.task){
 				//If job is unload, deliver energy.
 				case "unload":
@@ -35,11 +36,12 @@ module.exports = {
 				break;
 				//If job is gather, harvest energy. Move to source if needed.
 				case "gather":
-					let harv = creep.harvest(source);
+					harv = creep.harvest(source);
 					if (harv == ERR_NOT_IN_RANGE){
 						creep.moveTo(source);
 					}
 				break;
+				default: break;
 			}
 		}
 	}

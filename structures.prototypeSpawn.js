@@ -13,7 +13,7 @@ StructureSpawn.prototype.SpawnCreeps = function (){
 				ROLE_UPGRADER: this.NRGBreakpoints(health, ROLE_UPGRADER),
 				ROLE_LOGISTICS: this.NRGBreakpoints(health, ROLE_LOGISTICS)};
 	var creepsInRoom = room.find(FIND_MY_CREEPS);
-	
+	console.log("got here")
 	switch(true){
 		case (this.energyAvailable >= NRGBP[ROLE_HARVESTER] &&
 				this.assessRoleCaps(ROLE_HARVESTER)): 
