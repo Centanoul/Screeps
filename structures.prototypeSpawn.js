@@ -1,10 +1,10 @@
-const ROLE_HARVESTER = "Harvester"
-const ROLE_HAULER = "Hauler"
-const ROLE_UPGRADER = "Upgrader"
-const ROLE_LOGISTICS = "Logistics"
-const HEALTH_EMERGENCY = 1
-const HEALTH_STRUGGLING = 2
-const HEALTH_HEALTHY = 3
+const ROLE_HARVESTER = "Harvester";
+const ROLE_HAULER = "Hauler";
+const ROLE_UPGRADER = "Upgrader";
+const ROLE_LOGISTICS = "Logistics";
+const HEALTH_EMERGENCY = 1;
+const HEALTH_STRUGGLING = 2;
+const HEALTH_HEALTHY = 3;
 
 StructureSpawn.prototype.SpawnCreeps = function (){
 	var health = this.assessHealth();
@@ -13,34 +13,34 @@ StructureSpawn.prototype.SpawnCreeps = function (){
 				ROLE_UPGRADER: this.NRGBreakpoints(health, ROLE_UPGRADER),
 				ROLE_LOGISTICS: this.NRGBreakpoints(health, ROLE_LOGISTICS)};
 	var creepsInRoom = room.find(FIND_MY_CREEPS);
-	console.log("got here")
-	switch(true){
-		case (this.energyAvailable >= NRGBP[ROLE_HARVESTER] &&
-				this.assessRoleCaps(ROLE_HARVESTER)): 
-				SpawnCustomCreep(ROLE_HARVESTER);
-		break;
-		case (this.energyAvailable >= NRGBP[ROLE_HAULER] &&
-				this.assessRoleCaps(ROLE_HAULER)):  
-				SpawnCustomCreep(ROLE_HAULER);
-		break;
-		case (this.energyAvailable >= NRGBP[ROLE_UPGRADER] &&
-				this.assessRoleCaps(ROLE_UPGRADER)):  
-				SpawnCustomCreep(ROLE_UPGRADER);
-		break;
-		case (this.energyAvailable >= NRGBP[ROLE_LOGISTICS] &&
-				this.assessRoleCaps(ROLE_LOGISTICS)): 
-				SpawnCustomCreep(ROLE_LOGISTICS);
-		break;
-		default:
-		break;
-}
+	switch(true) {
+        case (this.energyAvailable >= NRGBP[ROLE_HARVESTER] &&
+            this.assessRoleCaps(ROLE_HARVESTER)):
+            SpawnCustomCreep(ROLE_HARVESTER);
+            break;
+        case (this.energyAvailable >= NRGBP[ROLE_HAULER] &&
+            this.assessRoleCaps(ROLE_HAULER)):
+            SpawnCustomCreep(ROLE_HAULER);
+            break;
+        case (this.energyAvailable >= NRGBP[ROLE_UPGRADER] &&
+            this.assessRoleCaps(ROLE_UPGRADER)):
+            SpawnCustomCreep(ROLE_UPGRADER);
+            break;
+        case (this.energyAvailable >= NRGBP[ROLE_LOGISTICS] &&
+            this.assessRoleCaps(ROLE_LOGISTICS)):
+            SpawnCustomCreep(ROLE_LOGISTICS);
+            break;
+        default:
+            break;
+    }
+};
 
 StructureSpawn.prototype.assessHealth = function (){
 	let hp = _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HARVESTER);
 	let tmp = Math.log10((this.room.storage.store[RESOURCE_ENERGY])-3);
-	if (tmp > 0) { hp += Math.trunc(tmp) };
+	if (tmp > 0) { hp += Math.trunc(tmp); }
 	return hp;
-}
+};
 
 StructureSpawn.prototype.NRGBreakpoints = function (health, role){
 	switch (role){
@@ -52,11 +52,11 @@ StructureSpawn.prototype.NRGBreakpoints = function (health, role){
 				default: return this.energyAvailable; break;
 			}
 		break;
-		default: return this.energyCapacity; break;
+		default: return this.energyCapacity;
 }
 
 StructureSpawn.prototype.assessRoleCaps = function (role){
-	let roleCaps = {ROLE_HARVESTER: 0, ROLE_HAULER: 0, ROLE_UPGRADER: 0, ROLE_LOGISTICS: 0}
+	let roleCaps = {ROLE_HARVESTER: 0, ROLE_HAULER: 0, ROLE_UPGRADER: 0, ROLE_LOGISTICS: 0};
 	switch (role){
 		case ROLE_HARVESTER:
 		//HARVESTER CAP MATH
@@ -91,9 +91,9 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
 		
 		case ROLE_LOGISTICS:
 		//LOGISTICS CAP MATH
-		if (!_.some(FIND_STRUCTURES, w => w.hits < w.hitsMax && (w.structureType == STRUCTURE_WALL && w.structureType == STRUCTURE_RAMPART))) {
+		if (!_.some(FIND_STRUCTURES, w => w.hits < w.hitsMax && (w.structureType == STRUCTURE_WALL && w.structureType == STRUCTURE_RAMPART))){
 			roleCaps[ROLE_LOGISTICS] += 1;}
-		if (!_.some(FIND_STRUCTURES, s => s.hits < s.hitsMax && (s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART)){
+		if (!_.some(FIND_STRUCTURES, s => s.hits < s.hitsMax && (s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART))){
 			roleCaps[ROLE_LOGISTICS] += 1;}
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 0){ roleCaps[ROLE_LOGISTICS] += 1; }
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 5){ roleCaps[ROLE_LOGISTICS] += 1; }
@@ -105,11 +105,11 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
 		}
 	}
 	return returnValue;
-}
+};
 
 StructureSpawn.prototype.SpawnCustomCreep = function (role){
 	let body = [];
-	let mem = {role: "", task: ""}
+	let mem = {role: "", task: ""};
 
 
 	switch (role){
@@ -130,18 +130,18 @@ StructureSpawn.prototype.SpawnCustomCreep = function (role){
                 }
             }
 			if (miner!=""){
-				for (let i=0, i<=Math.trunc((this.energyAvailable-50)/100) && i<7, i++){
+				for (let i=0; i<=Math.trunc((this.energyAvailable-50)/100) && i<7; i++){
 					body.push(WORK);
 				}
 				body.push(MOVE);
 				mem = {role: ROLE_HARVESTER, task: "gather", affinity: miner};
 			} else {
 				let x=0;
-				for (let i=0, i<=Math.trunc(this.energyAvailable/150), i++){
+				for (let i=0; i<=Math.trunc(this.energyAvailable/150); i++){
 					body.push(WORK);
 					x++;
 				}
-				for (let i=0, i<=x, i++){
+				for (let i=0; i<=x; i++){
 					body.push(MOVE);
 				}
 				mem = {role: ROLE_HARVESTER, task: "gather", affinity: harv}
@@ -155,7 +155,7 @@ StructureSpawn.prototype.SpawnCustomCreep = function (role){
                     hauler = source.getContainer();
 				} else { hauler = "none"; }
             }
-			for (let i=0, i<=Math.trunc((this.energyAvailable)/100), i++){
+			for (let i=0; i<=Math.trunc((this.energyAvailable)/100); i++){
 				body.push(CARRY);
 				body.push(MOVE);
 			}
@@ -163,7 +163,7 @@ StructureSpawn.prototype.SpawnCustomCreep = function (role){
 		break;
 		
 		case ROLE_UPGRADER:
-			for (let i=0, i<=Math.trunc((this.energyAvailable)/200), i++){
+			for (let i=0; i<=Math.trunc((this.energyAvailable)/200); i++){
 				body.push(WORK);
 				body.push(CARRY);
 				body.push(MOVE);
@@ -172,7 +172,7 @@ StructureSpawn.prototype.SpawnCustomCreep = function (role){
 		break;
 		
 		case ROLE_LOGISTICS:
-			for (let i=0, i<=Math.trunc((this.energyAvailable)/200), i++){
+			for (let i=0; i<=Math.trunc((this.energyAvailable)/200); i++){
 				body.push(WORK);
 				body.push(CARRY);
 				body.push(MOVE);
@@ -182,7 +182,7 @@ StructureSpawn.prototype.SpawnCustomCreep = function (role){
 	}
 
 	this.createCreep(body, this.NameSchema(role), mem);
-}
+};
 
 StructureSpawn.prototype.NameSchema = function (role){
 	let IDTag = "";
@@ -201,7 +201,7 @@ StructureSpawn.prototype.NameSchema = function (role){
 		case ROLE_LOGISTICS:
 			return "Queen "+IDTag;
 	}
-}
+};
 
 StructureSpawn.prototype.RepairCreeps = function (){
 	let room = this.room;
@@ -211,6 +211,6 @@ StructureSpawn.prototype.RepairCreeps = function (){
 	});
 	if (nearCreep!=undefined){
 		let tmp = nearCreep.ticksToLive;
-		if(!this.renewCreep(nearCreep)){nearCreep.say("🔧")};
+		if(!this.renewCreep(nearCreep)){nearCreep.say("🔧")}
 	}
-}
+};
