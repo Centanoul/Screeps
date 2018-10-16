@@ -3,7 +3,7 @@ Creep.prototype.actionDeliverEnergy = function () {
 		case spawnNRG(): spawnNRG(1); break;
 		case extNRG(): extNRG(1); break;
 		case storageNRG(): storageNRG(1); break;
-		case upgNRG(): upgNRG(1); break;
+	//	case upgNRG(): upgNRG(1); break;
 		default: this.say("🚬"); break;
 	}
 };
@@ -40,7 +40,7 @@ function storageNRG(live){
 		} else { return 1; }
 	} else { return 0; }
 }
-
+/*
 function upgNRG(live){
 	let upgCan = this.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_CONTAINER) && memory: {type: "UpgradeCan"}});
 	if (upgCan.length) {
@@ -50,4 +50,4 @@ function upgNRG(live){
 			}
 		} else { return 1; }
 	} else { return 0; }	
-} 
+} */

@@ -211,6 +211,8 @@ StructureSpawn.prototype.RepairCreeps = function (){
 	});
 	if (nearCreep!=undefined){
 		let tmp = nearCreep.ticksToLive;
-		if(!this.renewCreep(nearCreep)){nearCreep.say("🔧")}
+		if(!this.renewCreep(nearCreep)){
+			nearCreep.say("🔧");
+        }
 	}
 };

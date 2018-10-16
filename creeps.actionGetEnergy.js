@@ -89,16 +89,16 @@ function srcNRG(live){
 		//And if this creep is not already assigned to a source
 		//Assign this source
 		if (creepList.length < src.getAccessPoints && this.memory.affinity == undefined){
-			this.memory.affinity = src.id
+			this.memory.affinity = src.id;
 		}
-	};
+	});
 		//If assigned to source
 	if (this.memory.affinity != undefined){
 		//Harvest source
-		let harvestSrc = this.harvest(Game.getObjectByID(this.memory.affinity);
+		let harvestSrc = this.harvest(Game.getObjectByID(this.memory.affinity));
 		//If Failed, move to it
 		if (harvestSrc == ERR_NOT_IN_RANGE){
-			this.moveTo(Game.getObjectByID(this.memory.affinity);
+			this.moveTo(Game.getObjectByID(this.memory.affinity));
 		}
 	}
 };

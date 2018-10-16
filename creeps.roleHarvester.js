@@ -42,7 +42,6 @@ module.exports = {
 						creep.moveTo(source);
 					}
 				break;
-				default: break;
 			}
 		}
 	}
