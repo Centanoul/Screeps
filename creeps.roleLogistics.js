@@ -8,7 +8,7 @@ module.exports = {
 						{"task": "repair", "coeff": 1.00, "exclude1": STRUCTURE_WALL, "exclude2": undefined},
 						{"task": "repair", "coeff": 1.00, "exclude1": undefined, "exclude2": undefined}]	
 	
-		switch (creep.memory.task)
+		switch (creep.memory.task){
 			case "gather":
 				if (creep.carry.energy == creep.carryCapacity){creep.memory.task = "unload"; break;}
 				creep.actionGetEnergy();
@@ -16,7 +16,7 @@ module.exports = {
 			case "unload":
 				if (creep.carry.energy == 0){creep.memory.task = "gather"; break;}
 				for (i = 0, i<6 && repStruc == undefined && bldStruc == undefined, i++){
-					switch (logiPriority[i]["task"])
+					switch (logiPriority[i]["task"]){
 						case "repair":
 							let repStruc = creep.pos.findClosestByPath(FIND_STRUCTURES, {
 								filter: (s) => s.hits < (s.hitsMax * logiPriority[i]["coeff"]) &&
@@ -27,6 +27,7 @@ module.exports = {
 						case "build":
 							let bldStruc = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
 						break;
+					}
 					if (repStruc != undefined) { 
 						if (creep.repair(repStruc) == ERR_NOT_IN_RANGE) {creep.moveTo(repStruc);}
 					}
@@ -35,4 +36,5 @@ module.exports = {
 					}
 				}
 			break;
+		}
 }

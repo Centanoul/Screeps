@@ -3,7 +3,7 @@ require('actionGetEnergy.js');
 module.exports = {
 	run: function (creep) {	
 
-		switch (creep.memory.task)
+		switch (creep.memory.task){
 			case "gather":
 				if (creep.carry.energy == creep.carryCapacity){creep.memory.task = "unload"; break;}
 				creep.actionGetEnergy();
@@ -14,4 +14,5 @@ module.exports = {
 					creep.moveTo(creep.room.controller);
 				}
 			break;
+		}
 }

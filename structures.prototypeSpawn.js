@@ -37,7 +37,7 @@ StructureSpawn.prototype.SpawnCreeps = function (){
 
 StructureSpawn.prototype.assessHealth = function (){
 	let hp = _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HARVESTER);
-	let tmp = Math.log10((this.room.storage.store[RESOURCE_ENERGY]))-3);
+	let tmp = Math.log10((this.room.storage.store[RESOURCE_ENERGY])-3);
 	if (tmp > 0) { hp += Math.trunc(tmp) };
 	return hp;
 }
@@ -45,18 +45,19 @@ StructureSpawn.prototype.assessHealth = function (){
 StructureSpawn.prototype.NRGBreakpoints = function (health, role){
 	switch (role){
 		case ROLE_HARVESTER:
-			switch
+			switch (health){
 				case HEALTH_EMERGENCY: return 300; break;
 				case HEALTH_STRUGGLING: return (this.energyCapacity / 2); break;
 				case HEALTH_HEALTHY: return this.energyCapacity; break;
 				default: return this.energyAvailable; break;
+			}
 		break;
 		default: return this.energyCapacity; break;
 }
 
 StructureSpawn.prototype.assessRoleCaps = function (role){
 	let roleCaps = {ROLE_HARVESTER: 0, ROLE_HAULER: 0, ROLE_UPGRADER: 0, ROLE_LOGISTICS: 0}
-	switch (role)
+	switch (role){
 		case ROLE_HARVESTER:
 		//HARVESTER CAP MATH
         let sources = room.find(FIND_SOURCES);
@@ -97,6 +98,7 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 0){ roleCaps[ROLE_LOGISTICS] += 1; }
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 5){ roleCaps[ROLE_LOGISTICS] += 1; }
 		if(_.sum(creepsInRoom, (c) => c.memory.role == ROLE_LOGISTICS) < roleCaps[ROLE_LOGISTICS]){ return true; } else { return false; }
+	}
 }
 
 StructureSpawn.prototype.SpawnCustom = function (role){
@@ -104,7 +106,7 @@ StructureSpawn.prototype.SpawnCustom = function (role){
 	let mem = {role: "", task: ""}
 
 
-	switch (role)
+	switch (role){
 		case ROLE_HARVESTER:
 			let miner = "";
 			let harv = "";
@@ -171,7 +173,7 @@ StructureSpawn.prototype.SpawnCustom = function (role){
 			}		
 			mem = {role: ROLE_LOGISTICS, task: "gather"};
 		break;	
-
+	}
 
 	this.createCreep(body, this.NameSchema(role), mem);
 }
@@ -183,7 +185,7 @@ StructureSpawn.prototype.NameSchema = function (role){
 	for (let i = 0; i < 5; i++){
 		IDTag += characters.charAt(Math.floor(Math.random() * characters.length));
 	}
-	switch (role)
+	switch (role){
 		case ROLE_HARVESTER:
 			return "Drone "+IDTag;
 		case ROLE_HAULER:
@@ -192,6 +194,7 @@ StructureSpawn.prototype.NameSchema = function (role){
 			return "Mutator "+IDTag;
 		case ROLE_LOGISTICS:
 			return "Queen "+IDTag;
+	}
 }
 
 StructureSpawn.prototype.RepairCreeps = function (){
