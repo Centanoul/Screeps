@@ -1,5 +1,5 @@
-require('actionDeliverEnergy.js');
-require('actionGetEnergy.js');
+require('actionDeliverEnergy');
+require('actionGetEnergy');
 
 module.exports = {
 	run: function (creep) {
