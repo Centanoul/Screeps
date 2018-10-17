@@ -2,6 +2,7 @@ const ROLE_HARVESTER = "Harvester";
 const ROLE_HAULER = "Hauler";
 const ROLE_UPGRADER = "Upgrader";
 const ROLE_LOGISTICS = "Logistics";
+const ROLE_ZERGLING = "Zergling";
 const HEALTH_EMERGENCY = 1;
 const HEALTH_STRUGGLING = 2;
 const HEALTH_HEALTHY = 3;
@@ -14,6 +15,9 @@ StructureSpawn.prototype.SpawnCreeps = function (){
 				"Logistics": this.NRGBreakpoints(health, ROLE_LOGISTICS)};
 	let creepsInRoom = this.room.find(FIND_MY_CREEPS);
 	switch(true) {
+		case Game.flags.Rally != undefined:
+			this.War();
+			break;
         case (this.room.energyAvailable >= NRGBP[ROLE_HARVESTER] &&
             this.assessRoleCaps(ROLE_HARVESTER)):
             this.SpawnCustomCreep(ROLE_HARVESTER);
@@ -115,7 +119,7 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
 		
 		case ROLE_UPGRADER:
 		//UPGRADER CAP MATH
-		roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level / 2) + 2);
+		roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level) + 2);
 		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_UPGRADER) < roleCaps[ROLE_UPGRADER];
 		
 		case ROLE_LOGISTICS:
@@ -161,12 +165,16 @@ StructureSpawn.prototype.SpawnCustomCreep = function (role){
                 	}
             	}
             }
-			if (miner!=undefined){
-				for (let i=0; i<Math.trunc((this.room.energyAvailable-50)/100) && i<7; i++){
-					body.push(WORK);
-				}
-				body.push(MOVE);
-				mem = {role: ROLE_HARVESTER, task: "gather", affinity: miner, canid: mcan};
+			if (miner!=undefined) {
+                let comp = 0;
+                for (let i = 0; i < Math.trunc((this.room.energyAvailable - 50) / 100) && i < 7; i++) {
+                    body.push(WORK);
+                    comp++
+                }
+                if (comp != 0) {
+                	body.push(MOVE);
+                	mem = {role: ROLE_HARVESTER, task: "gather", affinity: miner, canid: mcan};
+            	}
 			} else {
 				for (let i=0; i<Math.trunc(this.room.energyAvailable/200); i++){
 					body.push(WORK);
@@ -246,6 +254,8 @@ StructureSpawn.prototype.NameSchema = function (role){
 			return "Mutator "+IDTag;
 		case ROLE_LOGISTICS:
 			return "Queen "+IDTag;
+		case ROLE_ZERGLING:
+			return "Ling "+IDTag;
 	}
 };
 
@@ -260,4 +270,8 @@ StructureSpawn.prototype.RepairCreeps = function (){
 			nearCreep.say("🔧");
         }
 	}
+};
+
+StructureSpawn.prototype.War = function (){
+	this.createCreep([ATTACK, MOVE], this.NameSchema(ROLE_ZERGLING), {role: ROLE_ZERGLING});
 };

@@ -2,6 +2,7 @@
 require('creeps.prototypeCreep');
 require('structures.prototypeTower');
 require('structures.prototypeSpawn');
+var Traveler = require('Traveler');
 
 module.exports.loop = function() {
 
@@ -26,7 +27,7 @@ module.exports.loop = function() {
     for (let tower of towers) {
         // run tower logic
         tower.defend();
-		tower.repair();
+		tower.repairBuildings();
     }
 
     // for each spawn

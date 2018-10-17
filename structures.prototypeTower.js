@@ -5,12 +5,12 @@ StructureTower.prototype.defend = function () {
     var target = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     //If Valid Target and Not Ally
     if (target != undefined && isAlly(target) == false) {
-        //Shoot It
+        //Attack
         this.attack(target);
     }
 };
 
-StructureTower.prototype.repair = function () {
+StructureTower.prototype.repairBuildings = function () {
 	//Find damaged structures that are NOT walls or ramparts
     let targets = this.room.find(FIND_STRUCTURES, {
         filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART

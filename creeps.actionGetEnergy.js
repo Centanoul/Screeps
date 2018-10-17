@@ -3,15 +3,16 @@ require('structures.prototypeSource');
 //Test each function for availability, if valid energy is found use it as a function lookup.
 Creep.prototype.actionGetEnergy = function (creep) {
 	switch(1){
-		case dropNRG(creep): dropNRG(creep, 1); break;
-		case graveNRG(creep): graveNRG(creep, 1); break;
-		case storeNRG(creep): storeNRG(creep, 1); break;
-		case canNRG(creep): canNRG(creep, 1); break;
+		case dropNRG(creep): break;
+		case graveNRG(creep): break;
+		case storeNRG(creep, 1): break;
+		case canNRG(creep): break;
+		case storeNRG(creep, 0): break;
 		default: srcNRG(creep); break;
 	}
 };
 
-function dropNRG(creep, live){
+function dropNRG(creep){
 	//If Not Hauler, return invalid
 	if (creep.memory.role != "Hauler"){ return 0; }
 	//Find Dropped Energy
@@ -24,14 +25,13 @@ function dropNRG(creep, live){
 
 		//If Dropped Energy Exists, but couldn't get it, go to it.
    	 	if (pickupEnergy == ERR_NOT_IN_RANGE) {
-        	if (live == 1){
-				creep.moveTo(dropEnergy[0]);
-			} else { return 1; }
-    	}
+   	 		creep.moveTo(dropEnergy[0]);
+   	 	}
+            return 1;
     } else { return 0; }
 }
 	
-function graveNRG(creep, live){
+function graveNRG(creep){
 	//If Not Hauler, return invalid
 	if (creep.memory.role != "hauler"){ return 0; }
 	//Find Tombstones
@@ -42,12 +42,15 @@ function graveNRG(creep, live){
 	} else { return 0; }
 	//If Tombstone Exists
 	if (graveEnergy.length > 0 && transferGrave == ERR_NOT_IN_RANGE) {
-		if (live == 1){creep.moveTo(graveEnergy[0]);} else { return 1; }
+		creep.moveTo(graveEnergy[0]);
+		return 1;
 	}
 }	
 	
-function storeNRG(creep, live){
+function storeNRG(creep, failIfHauler){
 	//Find Storage
+	if (creep.memory.role == "Hauler" && failIfHauler == 1){return 0;}
+	if (creep.memory.role != "Hauler" && failIfHauler == 0){return 0;}
 	let storeEnergy = creep.room.storage;
 	//If Storage Found & Energy > 250
 	if (storeEnergy != undefined && storeEnergy.store[RESOURCE_ENERGY] >= 250) {
@@ -55,26 +58,24 @@ function storeNRG(creep, live){
 		let transferStore = creep.withdraw(storeEnergy, RESOURCE_ENERGY);
 		//If Failed, Move to Storage
 		if (transferStore == ERR_NOT_IN_RANGE) {
-			if (live == 1){
-				creep.moveTo(storeEnergy);
-			} else { return 1; }
+			creep.moveTo(storeEnergy);
 		}
+            return 1;
 	} else { return 0; }
 }
 		
-function canNRG(creep, live){
+function canNRG(creep){
 	//Find Container with more than 250 Energy
-	let canEnergy = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => c.structureType == STRUCTURE_CONTAINER && c.store[RESOURCE_ENERGY] > 250});
+	let canEnergy = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: c => c.structureType == STRUCTURE_CONTAINER && c.store[RESOURCE_ENERGY] > 250});
 	if (canEnergy != undefined ) {
 		//If Found, Try to withdraw from it
 		let transferCan = creep.withdraw(canEnergy, RESOURCE_ENERGY);
 		//If Failed, Move to it
 		if (transferCan == ERR_NOT_IN_RANGE) {
-			if (live == 1){
 				creep.moveTo(canEnergy);
-			} else { return 1; }
-		}
-	} else { return 0; }
+        }
+        	return 1;
+    } else { return 0; }
 }
         
 function srcNRG(creep){
