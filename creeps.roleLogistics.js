@@ -4,8 +4,7 @@ require('creeps.actionGetEnergy');
 module.exports = {
     run: function (creep) {
 
-        let logiPriority = [{"task": "repair","coeff": 0.25,"exclude1": STRUCTURE_WALL,"exclude2": STRUCTURE_RAMPART},
-            {"task": "build", "coeff": undefined, "exclude1": undefined, "exclude2": undefined},
+        let logiPriority = [{"task": "build", "coeff": undefined, "exclude1": undefined, "exclude2": undefined},
             {"task": "repair", "coeff": 0.50, "exclude1": STRUCTURE_WALL, "exclude2": STRUCTURE_RAMPART},
             {"task": "repair", "coeff": 1.00, "exclude1": STRUCTURE_WALL, "exclude2": STRUCTURE_RAMPART},
             {"task": "repair", "coeff": 1.00, "exclude1": STRUCTURE_WALL, "exclude2": undefined},
@@ -25,7 +24,7 @@ module.exports = {
                 }
 				let repStruc = undefined;
 				let bldStruc = undefined;
-                for (i = 0; i < 6; i++) {
+                for (i = 0; i < 5; i++) {
                     switch (logiPriority[i]["task"]) {
                         case "repair":
                             repStruc = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: (s) => s.hits < (s.hitsMax * logiPriority[i]["coeff"]) && s.structureType != logiPriority[i]["exclude1"] && s.structureType != logiPriority[i]["exclude2"]});
