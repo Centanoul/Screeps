@@ -204,7 +204,7 @@ StructureSpawn.prototype.SpawnCustomCreep = function (role){
             for (let i=0; i<x; i++){
                 body.push(MOVE);
             }
-			mem = {role: ROLE_HAULER, task: "gather", affinity: hauler};
+			mem = {role: ROLE_HAULER, task: "gather"};
 		break;
 		
 		case ROLE_UPGRADER:
