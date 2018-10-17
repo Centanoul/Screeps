@@ -1,41 +1,40 @@
-Creep.prototype.actionDeliverEnergy = function () {
+Creep.prototype.actionDeliverEnergy = function (creep) {
 		switch(1){
-		case spawnNRG(): spawnNRG(1); break;
-		case extNRG(): extNRG(1); break;
-		case storageNRG(): storageNRG(1); break;
+		case spawnNRG(creep, 0): spawnNRG(creep, 1); break;
+		case extNRG(creep, 0): extNRG(creep, 1); break;
+		case storageNRG(creep, 0): storageNRG(creep, 1); break;
 	//	case upgNRG(): upgNRG(1); break;
-		default: this.say("🚬"); break;
 	}
 };
 
-function spawnNRG(live){
-	let nearSpawn = this.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_SPAWN && c.store[RESOURCE_ENERGY] < 300)});
-	if (nearSpawn.length){
+function spawnNRG(creep, live){
+	let nearSpawn = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_SPAWN && c.energy < 300)});
+	if (nearSpawn != undefined){
 		if (live = true){
-			if (this.transfer(nearSpawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-				this.moveTo(nearSpawn);
+			if (creep.transfer(nearSpawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(nearSpawn);
 			}
 		} else { return 1; }
 	} else { return 0; }
 }
 
-function extNRG(live){
-	let nearExt = this.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_EXTENSION && c.store[RESOURCE_ENERGY] < 50)});
-	if (nearExt.length){
+function extNRG(creep, live){
+	let nearExt = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_EXTENSION && c.energy < 50)});
+	if (nearExt != undefined){
 		if (live = true){
-			if (this.transfer(nearExt, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-				this.moveTo(nearExt);
+			if (creep.transfer(nearExt, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(nearExt);
 			}
 		} else { return 1; }
 	} else { return 0; }
 }
 
-function storageNRG(live){
-	let storeEnergy = this.room.storage;
+function storageNRG(creep, live){
+	let storage = creep.room.storage;
 	if (storage != undefined){
 		if (live = true){
-			if (this.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-				this.moveTo(storage);
+			if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(storage);
 			}
 		} else { return 1; }
 	} else { return 0; }

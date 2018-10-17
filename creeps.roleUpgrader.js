@@ -6,14 +6,14 @@ module.exports = {
 
         switch (creep.memory.task) {
             case "gather":
-                if (creep.carry.energy == creep.carryCapacity) {
+                if (creep.carry[RESOURCE_ENERGY] == creep.carryCapacity) {
                     creep.memory.task = "unload";
                     break;
                 }
-                creep.actionGetEnergy();
+                creep.actionGetEnergy(creep);
                 break;
             case "unload":
-                if (creep.carry.energy == 0) {
+                if (creep.carry[RESOURCE_ENERGY] == 0) {
                     creep.memory.task = "gather";
                     break;
                 }

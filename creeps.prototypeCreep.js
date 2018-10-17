@@ -5,7 +5,6 @@ var roles = {
     Logistics: require("creeps.roleLogistics"),
     Upgrader: require("creeps.roleUpgrader")
 };
-
 //Try call 'role'+roleName+'.js', if undefined break for current creep.
 Creep.prototype.runRole = function () {
 	if(this.memory.role !== undefined){

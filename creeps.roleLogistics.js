@@ -4,38 +4,35 @@ require('creeps.actionGetEnergy');
 module.exports = {
     run: function (creep) {
 
-        let logiPriority = [{
-            "task": "repair",
-            "coeff": 0.25,
-            "exclude1": STRUCTURE_WALL,
-            "exclude2": STRUCTURE_RAMPARTS
-        },
+        let logiPriority = [{"task": "repair","coeff": 0.25,"exclude1": STRUCTURE_WALL,"exclude2": STRUCTURE_RAMPART},
             {"task": "build", "coeff": undefined, "exclude1": undefined, "exclude2": undefined},
-            {"task": "repair", "coeff": 0.50, "exclude1": STRUCTURE_WALL, "exclude2": STRUCTURE_RAMPARTS},
-            {"task": "repair", "coeff": 1.00, "exclude1": STRUCTURE_WALL, "exclude2": STRUCTURE_RAMPARTS},
+            {"task": "repair", "coeff": 0.50, "exclude1": STRUCTURE_WALL, "exclude2": STRUCTURE_RAMPART},
+            {"task": "repair", "coeff": 1.00, "exclude1": STRUCTURE_WALL, "exclude2": STRUCTURE_RAMPART},
             {"task": "repair", "coeff": 1.00, "exclude1": STRUCTURE_WALL, "exclude2": undefined},
             {"task": "repair", "coeff": 1.00, "exclude1": undefined, "exclude2": undefined}];
         switch (creep.memory.task) {
             case "gather":
-                if (creep.carry.energy == creep.carryCapacity) {
+                if (creep.carry[RESOURCE_ENERGY] == creep.carryCapacity) {
                     creep.memory.task = "unload";
                     break;
                 }
-                creep.actionGetEnergy();
+                creep.actionGetEnergy(creep);
                 break;
             case "unload":
-                if (creep.carry.energy == 0) {
+                if (creep.carry[RESOURCE_ENERGY] == 0) {
                     creep.memory.task = "gather";
                     break;
                 }
-                for (i = 0; i < 6 && repStruc == undefined && bldStruc == undefined; i++) {
+				let repStruc = undefined;
+				let bldStruc = undefined;
+                for (i = 0; i < 6; i++) {
                     switch (logiPriority[i]["task"]) {
                         case "repair":
-                            let repStruc = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: (s) => s.hits < (s.hitsMax * logiPriority[i]["coeff"]) && s.structureType != logiPriority[i]["exclude1"] && s.structureType != logiPriority[i]["exclude2"]});
+                            repStruc = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: (s) => s.hits < (s.hitsMax * logiPriority[i]["coeff"]) && s.structureType != logiPriority[i]["exclude1"] && s.structureType != logiPriority[i]["exclude2"]});
                             break;
                         case "build":
-                            let bldStruc = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
-                            break;
+                            bldStruc = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+							break;
                     }
                     if (repStruc != undefined) {
                         if (creep.repair(repStruc) == ERR_NOT_IN_RANGE) {
@@ -47,7 +44,7 @@ module.exports = {
                             creep.moveTo(bldStruc);
                         }
                     }
-                }
+				}
                 break;
         }
     }

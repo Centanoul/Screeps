@@ -8,27 +8,27 @@ const HEALTH_HEALTHY = 3;
 
 StructureSpawn.prototype.SpawnCreeps = function (){
 	var health = this.assessHealth();
-	var NRGBP = {ROLE_HARVESTER: this.NRGBreakpoints(health, ROLE_HARVESTER),
-				ROLE_HAULER: this.NRGBreakpoints(health, ROLE_HAULER),
-				ROLE_UPGRADER: this.NRGBreakpoints(health, ROLE_UPGRADER),
-				ROLE_LOGISTICS: this.NRGBreakpoints(health, ROLE_LOGISTICS)};
-	var creepsInRoom = room.find(FIND_MY_CREEPS);
+	var NRGBP = {"Harvester": this.NRGBreakpoints(health, ROLE_HARVESTER),
+				"Hauler": this.NRGBreakpoints(health, ROLE_HAULER),
+				"Upgrader": this.NRGBreakpoints(health, ROLE_UPGRADER),
+				"Logistics": this.NRGBreakpoints(health, ROLE_LOGISTICS)};
+	let creepsInRoom = this.room.find(FIND_MY_CREEPS);
 	switch(true) {
-        case (this.energyAvailable >= NRGBP[ROLE_HARVESTER] &&
+        case (this.room.energyAvailable >= NRGBP[ROLE_HARVESTER] &&
             this.assessRoleCaps(ROLE_HARVESTER)):
-            SpawnCustomCreep(ROLE_HARVESTER);
+            this.SpawnCustomCreep(ROLE_HARVESTER);
             break;
-        case (this.energyAvailable >= NRGBP[ROLE_HAULER] &&
+        case (this.room.energyAvailable >= NRGBP[ROLE_HAULER] &&
             this.assessRoleCaps(ROLE_HAULER)):
-            SpawnCustomCreep(ROLE_HAULER);
+            this.SpawnCustomCreep(ROLE_HAULER);
             break;
-        case (this.energyAvailable >= NRGBP[ROLE_UPGRADER] &&
+        case (this.room.energyAvailable >= NRGBP[ROLE_UPGRADER] &&
             this.assessRoleCaps(ROLE_UPGRADER)):
-            SpawnCustomCreep(ROLE_UPGRADER);
+            this.SpawnCustomCreep(ROLE_UPGRADER);
             break;
-        case (this.energyAvailable >= NRGBP[ROLE_LOGISTICS] &&
+        case (this.room.energyAvailable >= NRGBP[ROLE_LOGISTICS] &&
             this.assessRoleCaps(ROLE_LOGISTICS)):
-            SpawnCustomCreep(ROLE_LOGISTICS);
+            this.SpawnCustomCreep(ROLE_LOGISTICS);
             break;
         default:
             break;
@@ -36,58 +36,87 @@ StructureSpawn.prototype.SpawnCreeps = function (){
 };
 
 StructureSpawn.prototype.assessHealth = function (){
+    let creepsInRoom = this.room.find(FIND_MY_CREEPS);
 	let hp = _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HARVESTER);
-	let tmp = Math.log10((this.room.storage.store[RESOURCE_ENERGY])-3);
+	let tmp;
+	if (this.room.storage != undefined) {
+        tmp = Math.log10((this.room.storage.store[RESOURCE_ENERGY]) - 3);
+    }
 	if (tmp > 0) { hp += Math.trunc(tmp); }
 	return hp;
 };
 
 StructureSpawn.prototype.NRGBreakpoints = function (health, role){
-	switch (role){
-		case ROLE_HARVESTER:
-			switch (health){
-				case HEALTH_EMERGENCY: return 300; break;
-				case HEALTH_STRUGGLING: return (this.energyCapacity / 2); break;
-				case HEALTH_HEALTHY: return this.energyCapacity; break;
-				default: return this.energyAvailable; break;
-			}
-		break;
-		default: return this.energyCapacity;
-}
+	switch (role) {
+        case ROLE_HARVESTER:
+            switch (health) {
+				case 0:
+					return 300;
+					break;
+                case HEALTH_EMERGENCY:
+                    return 300;
+                    break;
+                case HEALTH_STRUGGLING:
+                    return (this.room.energyCapacityAvailable / 2);
+                    break;
+                case HEALTH_HEALTHY:
+                    return this.room.energyCapacityAvailable;
+                    break;
+                default:
+                    return this.room.energyAvailable;
+                    break;
+            }
+            break;
+        default:
+            return this.room.energyCapacityAvailable;
+    }
+};
 
 StructureSpawn.prototype.assessRoleCaps = function (role){
-	let roleCaps = {ROLE_HARVESTER: 0, ROLE_HAULER: 0, ROLE_UPGRADER: 0, ROLE_LOGISTICS: 0};
+	let roleCaps = {"Harvester": 0,
+					"Hauler": 0,
+					"Upgrader": 0,
+					"Logistics": 0};
+	let creepsInRoom = this.room.find(FIND_MY_CREEPS);
+    let containers;
+    let sources = this.room.find(FIND_SOURCES);
 	switch (role){
 		case ROLE_HARVESTER:
 		//HARVESTER CAP MATH
-        let sources = room.find(FIND_SOURCES);
-		roleCaps[ROLE_HARVESTER] = _.count(sources) * 2;
+		roleCaps[ROLE_HARVESTER] = sources.length * 2;
         for (let source of sources) {
-            if (!_.some(creepsInRoom, c => c.memory.role == ROLE_HARVESTER && c.memory.affinity == source.id)) {
-                let containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
-                        filter: s => s.structureType == STRUCTURE_CONTAINER
-                });
-                if (containers.length > 0) {
-                    roleCaps[ROLE_HARVESTER] -= 1;
-                }
+            containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
+                    filter: s => s.structureType == STRUCTURE_CONTAINER
+            });
+            if (containers.length > 0) {
+            	roleCaps[ROLE_HARVESTER] -= 1;
             }
         }
-		if(_.sum(creepsInRoom, (c) => c.memory.role == ROLE_HARVESTER) < roleCaps[ROLE_HARVESTER]){ return true; } else { return false; }
-		
+		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HARVESTER) < roleCaps[ROLE_HARVESTER];
+
 		case ROLE_HAULER:
 		//HAULER CAP MATH
 		let dropEnergy = this.room.find(FIND_DROPPED_RESOURCES, {
 			filter: (d) => (d.amount >= 50 && d.resourceType == "energy")
 		});
 		let janitor = 0;
+
 		if (dropEnergy.length) {janitor = 1;}
-		roleCaps[ROLE_HAULER] = containers.length + Math.trunc((this.room.controller.level / 2) - 2) + janitor;
-		if(_.sum(creepsInRoom, (c) => c.memory.role == ROLE_HAULER) < roleCaps[ROLE_HAULER]){ return true; } else { return false; }
+		for (let source of sources) {
+            containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
+                filter: s => s.structureType == STRUCTURE_CONTAINER
+            });
+            if (containers.length > 0) {
+                roleCaps[ROLE_HAULER]++;
+            }
+        }
+        roleCaps[ROLE_HAULER] += janitor;
+		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HAULER) < roleCaps[ROLE_HAULER];
 		
 		case ROLE_UPGRADER:
 		//UPGRADER CAP MATH
 		roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level / 2) + 2);
-		if(_.sum(creepsInRoom, (c) => c.memory.role == ROLE_UPGRADER) < roleCaps[ROLE_UPGRADER]){ return true; } else { return false; }
+		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_UPGRADER) < roleCaps[ROLE_UPGRADER];
 		
 		case ROLE_LOGISTICS:
 		//LOGISTICS CAP MATH
@@ -98,53 +127,58 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 0){ roleCaps[ROLE_LOGISTICS] += 1; }
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 5){ roleCaps[ROLE_LOGISTICS] += 1; }
 		let returnValue;
-		if(_.sum(creepsInRoom, (c) => c.memory.role == ROLE_LOGISTICS) < roleCaps[ROLE_LOGISTICS]){
-			returnValue=true;
-		} else {
-			returnValue=false;
-		}
+		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_LOGISTICS) < roleCaps[ROLE_LOGISTICS];
 	}
-	return returnValue;
 };
 
 StructureSpawn.prototype.SpawnCustomCreep = function (role){
 	let body = [];
 	let mem = {role: "", task: ""};
-
-
+    let creepsInRoom = this.room.find(FIND_MY_CREEPS);
+    let x = 0;
+    let sources = this.room.find(FIND_SOURCES);
 	switch (role){
 		case ROLE_HARVESTER:
-			let miner = "";
-			let harv = "";
-            let sources = room.find(FIND_SOURCES);
+			let miner = undefined;
+			let harv = undefined;
+            let containers;
+            let mcan;
             for (let source of sources) {
-                if (!_.some(creepsInRoom, c => c.memory.role == ROLE_HARVESTER && c.memory.sourceId == source.id)) {
-                    let containers = source.getContainer;
-                    if (containers.length > 0) {
-                        miner = source.id;
-                    } else {
-						if (!_.sum(creepsInRoom, c=> c.memory.role == ROLE_HARVESTER && c.memory.sourceId == source.id < 2)){
-							harv = source.id;
-						}
-					}
-                }
+                containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
+                    filter: s => s.structureType == STRUCTURE_CONTAINER
+                });
+
+                if (miner == undefined && harv == undefined) {
+                	if (containers.length > 0) {
+                    	if (_.sum(creepsInRoom, c => c.memory.role == ROLE_HARVESTER && c.memory.affinity == source.id) < 1) {
+                    	    miner = source.id;
+                            mcan = containers[0].id;
+                    	}
+                	} else {
+                    	if (_.sum(creepsInRoom, c => c.memory.role == ROLE_HARVESTER && c.memory.affinity == source.id) < 2) {
+                    	    harv = source.id;
+                    	}
+                	}
+            	}
             }
-			if (miner!=""){
-				for (let i=0; i<=Math.trunc((this.energyAvailable-50)/100) && i<7; i++){
+			if (miner!=undefined){
+				for (let i=0; i<Math.trunc((this.room.energyAvailable-50)/100) && i<7; i++){
 					body.push(WORK);
 				}
 				body.push(MOVE);
-				mem = {role: ROLE_HARVESTER, task: "gather", affinity: miner};
+				mem = {role: ROLE_HARVESTER, task: "gather", affinity: miner, canid: mcan};
 			} else {
-				let x=0;
-				for (let i=0; i<=Math.trunc(this.energyAvailable/150); i++){
+				for (let i=0; i<Math.trunc(this.room.energyAvailable/200); i++){
 					body.push(WORK);
 					x++;
 				}
-				for (let i=0; i<=x; i++){
-					body.push(MOVE);
+				for (let i=0; i<x; i++){
+					body.push(CARRY);
 				}
-				mem = {role: ROLE_HARVESTER, task: "gather", affinity: harv}
+                for (let i=0; i<x; i++){
+                    body.push(MOVE);
+                }
+				mem = {role: ROLE_HARVESTER, task: "gather", affinity: harv};
 			}
 		break;
 		
@@ -155,32 +189,44 @@ StructureSpawn.prototype.SpawnCustomCreep = function (role){
                     hauler = source.getContainer();
 				} else { hauler = "none"; }
             }
-			for (let i=0; i<=Math.trunc((this.energyAvailable)/100); i++){
+			for (let i=0; i<Math.trunc((this.room.energyAvailable)/100); i++){
 				body.push(CARRY);
-				body.push(MOVE);
+				x++;
 			}
+            for (let i=0; i<x; i++){
+                body.push(MOVE);
+            }
 			mem = {role: ROLE_HAULER, task: "gather", affinity: hauler};
 		break;
 		
 		case ROLE_UPGRADER:
-			for (let i=0; i<=Math.trunc((this.energyAvailable)/200); i++){
+			for (let i=0; i<Math.trunc((this.room.energyAvailable)/200); i++){
 				body.push(WORK);
-				body.push(CARRY);
-				body.push(MOVE);
-			}		
+				x++;
+			}
+            for (let i=0; i<x; i++){
+                body.push(CARRY);
+            }
+            for (let i=0; i<x; i++){
+                body.push(MOVE);
+            }
 			mem = {role: ROLE_UPGRADER, task: "gather"};
 		break;
 		
 		case ROLE_LOGISTICS:
-			for (let i=0; i<=Math.trunc((this.energyAvailable)/200); i++){
-				body.push(WORK);
-				body.push(CARRY);
-				body.push(MOVE);
-			}		
+			for (let i=0; i<Math.trunc((this.room.energyAvailable)/200); i++){
+                body.push(WORK);
+                x++;
+            }
+            for (let i=0; i<x; i++){
+                body.push(CARRY);
+            }
+            for (let i=0; i<x; i++){
+                body.push(MOVE);
+            }
 			mem = {role: ROLE_LOGISTICS, task: "gather"};
 		break;	
 	}
-
 	this.createCreep(body, this.NameSchema(role), mem);
 };
 
@@ -204,8 +250,7 @@ StructureSpawn.prototype.NameSchema = function (role){
 };
 
 StructureSpawn.prototype.RepairCreeps = function (){
-	let room = this.room;
-    let creepsInRoom = room.find(FIND_MY_CREEPS);
+    let creepsInRoom = this.room.find(FIND_MY_CREEPS);
     let nearCreep = this.pos.findClosestByRange(FIND_MY_CREEPS, {
 		filter: c => (c.ticksToLive <= 500)
 	});
