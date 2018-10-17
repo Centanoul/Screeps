@@ -12,3 +12,16 @@ Creep.prototype.runRole = function () {
 		roles[this.memory.role].run(this);
 	}
 };
+
+Creep.prototype.changeRoom = function () {
+    if (this.memory.target == undefined || this.memory.target == ""){
+        return false;
+    }
+    if (this.room.name != this.memory.target){
+        let exit = this.room.findExitTo(this.memory.target);
+        this.travelTo(this.pos.findClosestByRange(exit));
+        return true;
+    } else {
+        return false;
+    }
+};
