@@ -119,7 +119,11 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
 		
 		case ROLE_UPGRADER:
 		//UPGRADER CAP MATH
-		roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level) + 2);
+			if(this.room.controller.level > 4) {
+                roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level) + 2);
+            } else {
+                roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level/2) + 2);
+			}
 		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_UPGRADER) < roleCaps[ROLE_UPGRADER];
 		
 		case ROLE_LOGISTICS:

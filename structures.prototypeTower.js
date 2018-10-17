@@ -4,7 +4,7 @@ StructureTower.prototype.defend = function () {
     //Find Hostile Creep
     var target = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     //If Valid Target and Not Ally
-    if (target != undefined && isAlly(target) == false) {
+    if (target != undefined && target.isAlly(target) == false) {
         //Attack
         this.attack(target);
     }
