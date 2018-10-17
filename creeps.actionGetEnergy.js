@@ -94,6 +94,9 @@ function srcNRG(creep){
             creep.memory.affinity = src.id;
         }
     };
+    if (creep.memory.affinity == undefined){
+    	creep.memory.affinity = srcNRG[Math.trunc(Math.random()*2)].id;
+	}
 		//If assigned to source
 	if (creep.memory.affinity != undefined){
 		//Harvest source

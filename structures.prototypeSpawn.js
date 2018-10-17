@@ -76,28 +76,31 @@ StructureSpawn.prototype.NRGBreakpoints = function (health, role){
     }
 };
 
-StructureSpawn.prototype.assessRoleCaps = function (role){
-	let roleCaps = {"Harvester": 0,
-					"Hauler": 0,
-					"Upgrader": 0,
-					"Logistics": 0};
+StructureSpawn.prototype.assessRoleCaps = function (role, returnCap){
 	let creepsInRoom = this.room.find(FIND_MY_CREEPS);
     let containers;
     let sources = this.room.find(FIND_SOURCES);
-	switch (role){
-		case ROLE_HARVESTER:
-		//HARVESTER CAP MATH
-		roleCaps[ROLE_HARVESTER] = sources.length * 2;
-        for (let source of sources) {
-            containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
+    var roleCaps = {"Harvester": 0,
+        "Hauler": 0,
+        "Upgrader": 0,
+        "Logistics": 0};
+	switch (role) {
+        case ROLE_HARVESTER:
+            //HARVESTER CAP MATH
+            roleCaps[ROLE_HARVESTER] = sources.length * 2;
+            for (let source of sources) {
+                containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
                     filter: s => s.structureType == STRUCTURE_CONTAINER
-            });
-            if (containers.length > 0) {
-            	roleCaps[ROLE_HARVESTER] -= 1;
+                });
+                if (containers.length > 0) {
+                    roleCaps[ROLE_HARVESTER] -= 1;
+                }
             }
-        }
-		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HARVESTER) < roleCaps[ROLE_HARVESTER];
-
+            if (returnCap == true) {
+                return roleCaps[role];
+            } else {
+                return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HARVESTER) < roleCaps[ROLE_HARVESTER];
+            }
 		case ROLE_HAULER:
 		//HAULER CAP MATH
 		let dropEnergy = this.room.find(FIND_DROPPED_RESOURCES, {
@@ -115,17 +118,26 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
             }
         }
         roleCaps[ROLE_HAULER] += janitor;
-		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HAULER) < roleCaps[ROLE_HAULER];
-		
+            if (returnCap == true) {
+                return roleCaps[role];
+            } else {
+                return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_HAULER) < roleCaps[ROLE_HAULER];
+            }
+
 		case ROLE_UPGRADER:
 		//UPGRADER CAP MATH
 			if(this.room.controller.level > 4) {
-                roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level) + 2);
+                roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level)/4 + 2);
             } else {
-                roleCaps[ROLE_UPGRADER] = Math.trunc((this.room.controller.level/2) + 2);
+                roleCaps[ROLE_UPGRADER] = Math.trunc(2);
 			}
-		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_UPGRADER) < roleCaps[ROLE_UPGRADER];
-		
+
+            if (returnCap == true) {
+                return roleCaps[role];
+            } else {
+                return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_UPGRADER) < roleCaps[ROLE_UPGRADER];
+            }
+
 		case ROLE_LOGISTICS:
 		//LOGISTICS CAP MATH
 		if (!_.some(FIND_STRUCTURES, w => w.hits < w.hitsMax && (w.structureType == STRUCTURE_WALL && w.structureType == STRUCTURE_RAMPART))){
@@ -135,7 +147,11 @@ StructureSpawn.prototype.assessRoleCaps = function (role){
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 0){ roleCaps[ROLE_LOGISTICS] += 1; }
 		if (this.room.find(FIND_CONSTRUCTION_SITES).length > 5){ roleCaps[ROLE_LOGISTICS] += 1; }
 		let returnValue;
-		return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_LOGISTICS) < roleCaps[ROLE_LOGISTICS];
+		if (returnCap == true) {
+			return roleCaps[role];
+		} else {
+			return _.sum(creepsInRoom, (c) => c.memory.role == ROLE_LOGISTICS) < roleCaps[ROLE_LOGISTICS];
+		}
 	}
 };
 

@@ -2,6 +2,7 @@
 require('creeps.prototypeCreep');
 require('structures.prototypeTower');
 require('structures.prototypeSpawn');
+require('hud');
 var Traveler = require('Traveler');
 
 module.exports.loop = function() {
@@ -33,7 +34,8 @@ module.exports.loop = function() {
     // for each spawn
     for (let spawnName in Game.spawns) {
         // run spawn logic
-        Game.spawns[spawnName].SpawnCreeps();
+        let roleCaps = Game.spawns[spawnName].SpawnCreeps();
 		Game.spawns[spawnName].RepairCreeps();
+		Game.spawns[spawnName].room.HUD(spawnName);
     }
 };
