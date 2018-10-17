@@ -28,10 +28,14 @@ module.exports = {
                     for (i = 0; i < 5; i++) {
                         switch (logiPriority[i]["task"]) {
                             case "repair":
-                                repStruc = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: (s) => s.hits < (s.hitsMax * logiPriority[i]["coeff"]) && s.structureType != logiPriority[i]["exclude1"] && s.structureType != logiPriority[i]["exclude2"]});
+                                if(repStruc == undefined && bldStruc == undefined) {
+                                    repStruc = creep.pos.findClosestByPath(FIND_STRUCTURES, {filter: (s) => s.hits < (s.hitsMax * logiPriority[i]["coeff"]) && s.structureType != logiPriority[i]["exclude1"] && s.structureType != logiPriority[i]["exclude2"]});
+                                }
                                 break;
                             case "build":
-                                bldStruc = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+                                if(repStruc == undefined && bldStruc == undefined) {
+                                    bldStruc = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+                                }
                                 break;
                         }
                         if (repStruc != undefined) {
