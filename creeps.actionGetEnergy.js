@@ -33,18 +33,15 @@ function dropNRG(creep){
 	
 function graveNRG(creep){
 	//If Not Hauler, return invalid
-	if (creep.memory.role != "hauler"){ return 0; }
+	if (creep.memory.role != "Hauler"){ return 0; }
 	//Find Tombstones
-	let graveEnergy = creep.room.find(FIND_TOMBSTONES, {filter: (t) => t.store[RESOURCE_ENERGY] >= 50 && t.creep.my == true});
+	let graveEnergy = creep.room.find(FIND_TOMBSTONES, {filter: (t) => t.energy >= 50 && t.creep.my == true});
 	//If Tombstone Exists, Try to withdraw from it.
-	if (graveEnergy.length) {
-		let transferGrave = creep.withdraw(graveEnergy, RESOURCE_ENERGY);
-	} else { return 0; }
 	//If Tombstone Exists
-	if (graveEnergy.length > 0 && transferGrave == ERR_NOT_IN_RANGE) {
+	if (graveEnergy != undefined && creep.withdraw(graveEnergy, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
 		creep.moveTo(graveEnergy[0]);
 		return 1;
-	}
+    } else { return 0; }
 }	
 	
 function storeNRG(creep, failIfHauler){

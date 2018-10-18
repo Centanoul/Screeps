@@ -64,7 +64,11 @@ StructureSpawn.prototype.NRGBreakpoints = function (health, role){
                     return (this.room.energyCapacityAvailable / 2);
                     break;
                 case HEALTH_HEALTHY:
-                    return Math.trunc(this.room.energyCapacityAvailable / 1.50);
+                	if (this.room.energyCapacityAvailable > 1000){
+                		return 1000;
+					} else {
+                		return this.room.energyCapacityAvailable;
+					}
                     break;
                 default:
                     return this.room.energyAvailable;
@@ -72,7 +76,11 @@ StructureSpawn.prototype.NRGBreakpoints = function (health, role){
             }
             break;
         default:
-            return this.room.energyCapacityAvailable;
+            if (this.room.energyCapacityAvailable > 1000){
+                return 1000;
+            } else {
+                return this.room.energyCapacityAvailable;
+            }
     }
 };
 
