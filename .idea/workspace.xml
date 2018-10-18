@@ -22,26 +22,26 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="1" />
-          <entry key="js" value="75" />
+          <entry key="js" value="76" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="75" />
+          <entry key="JavaScript" value="76" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="29" />
-          <entry key="js" value="4359" />
+          <entry key="js" value="4365" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="4359" />
+          <entry key="JavaScript" value="4365" />
           <entry key="PLAIN_TEXT" value="29" />
         </counts>
       </usages-collector>
@@ -88,7 +88,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hud.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="200">
@@ -109,8 +109,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/structures.prototypeSpawn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2050">
+            <state relative-caret-position="1175">
               <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/creeps.actionDeliverEnergy.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="619">
+              <caret line="31" column="133" selection-start-line="31" selection-start-column="133" selection-end-line="31" selection-end-column="133" />
             </state>
           </provider>
         </entry>
@@ -171,7 +180,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/structures.prototypeSource.js" />
-        <option value="$PROJECT_DIR$/creeps.actionDeliverEnergy.js" />
         <option value="$PROJECT_DIR$/creeps.attack.zerglings.js" />
         <option value="$PROJECT_DIR$/creeps.roleHarvester.js" />
         <option value="$PROJECT_DIR$/creeps.roleHauler.js" />
@@ -185,6 +193,7 @@
         <option value="$PROJECT_DIR$/creeps.actionGetEnergy.js" />
         <option value="$PROJECT_DIR$/structures.prototypeSpawn.js" />
         <option value="$PROJECT_DIR$/hud.js" />
+        <option value="$PROJECT_DIR$/creeps.actionDeliverEnergy.js" />
       </list>
     </option>
   </component>
@@ -407,7 +416,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55261000" />
+    <option name="totallyTimeSpent" value="56034000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="3456" height="1416" extended-state="6" />
@@ -455,13 +464,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/creeps.roleMiner.js" />
-    <entry file="file://$PROJECT_DIR$/creeps.actionDeliverEnergy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="51" column="108" selection-start-line="51" selection-start-column="108" selection-end-line="51" selection-end-column="108" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/creeps.attack.zerglings.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
@@ -549,17 +551,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/structures.prototypeSpawn.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2050">
-          <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/hud.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="8" column="73" selection-start-line="8" selection-start-column="73" selection-end-line="8" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/structures.prototypeSpawn.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1175">
+          <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/creeps.actionDeliverEnergy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="619">
+          <caret line="31" column="133" selection-start-line="31" selection-start-column="133" selection-end-line="31" selection-end-column="133" />
         </state>
       </provider>
     </entry>

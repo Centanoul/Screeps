@@ -29,7 +29,7 @@ function extNRG(creep){
 }
 
 function twrNRG(creep){
-    let nearTower = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_TOWER && c.energy < 1000)});
+    let nearTower = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: c => (c.structureType == STRUCTURE_TOWER && c.energy < 950)});
     if (nearTower != undefined){
             if (creep.transfer(nearTower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(nearTower);
