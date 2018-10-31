@@ -31,11 +31,12 @@ function dropMIN(creep){
 		
 function canMIN(creep){
 	//Find Container with more than 250 Minerals
-	let canMinerals = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: c => c.structureType == STRUCTURE_CONTAINER && _.sum(c.store) > 250 && c.store[RESOURCE_ENERGY] == 0});
+    let canMinerals = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: c => c.structureType == STRUCTURE_CONTAINER && _.sum(c.store) > c.store[RESOURCE_ENERGY]});
+    console.log(canMinerals != undefined);
 	if (canMinerals != undefined) {
 		//If Found, Try to withdraw from it
-        let res = ["H", "O", "U", "L", "K", "Z", "X", "G"];
-        for (x=0; x<8; x++) {
+        let res = ["H", "O", "U", "L", "K", "Z", "X", "G", RESOURCE_ENERGY];
+        for (x=0; x<9; x++) {
             let transferCan = creep.withdraw(canMinerals, res[x]);
             //If Failed, Move to it
             if (transferCan == ERR_NOT_IN_RANGE) {
