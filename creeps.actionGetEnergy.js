@@ -3,12 +3,13 @@ require('structures.prototypeSource');
 //Test each function for availability, if valid energy is found use it as a function lookup.
 Creep.prototype.actionGetEnergy = function (creep) {
 	switch(1){
-		case dropNRG(creep): break;
-		case graveNRG(creep): break;
-		case storeNRG(creep, 1): break;
-		case canNRG(creep): break;
-		case storeNRG(creep, 0): break;
-		default: srcNRG(creep); break;
+		case dropNRG(creep): return true;
+		case graveNRG(creep): return true;
+		case storeNRG(creep, 1): return true;
+		case canNRG(creep): return true;
+	//case storeNRG(creep, 0): return true;
+		case srcNRG(creep): return true;
+		default: return false;
 	}
 };
 

@@ -2,7 +2,9 @@ Creep.prototype.actionDeliverEnergy = function (creep) {
 		switch(1){
 		case spawnNRG(creep): break;
 		case extNRG(creep): break;
+        case terminalNRG(creep, 25000): break;
 		case twrNRG(creep): break;
+		case terminalNRG(creep, 50000): break;
 		case storageNRG(creep): break;
 	//	case upgNRG(): upgNRG(1); break;
 	}
@@ -25,6 +27,18 @@ function extNRG(creep){
 				creep.moveTo(nearExt);
             }
         return 1;
+    } else { return 0; }
+}
+
+function terminalNRG(creep, level){
+    let terminal = creep.room.terminal;
+    if (terminal != undefined) {
+        if (terminal.store[RESOURCE_ENERGY] < level){
+            if (creep.transfer(terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(terminal);
+            }
+            return 1;
+        } else { return 0; }
     } else { return 0; }
 }
 

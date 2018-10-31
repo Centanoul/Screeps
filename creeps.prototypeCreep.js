@@ -4,7 +4,8 @@ var roles = {
     Hauler: require("creeps.roleHauler"),
     Logistics: require("creeps.roleLogistics"),
     Upgrader: require("creeps.roleUpgrader"),
-    Zergling: require("creeps.attack.zerglings")
+    Zergling: require("creeps.attack.zerglings"),
+    Extractor: require("creeps.roleExtractor")
 };
 //Try call 'role'+roleName+'.js', if undefined break for current creep.
 Creep.prototype.runRole = function () {

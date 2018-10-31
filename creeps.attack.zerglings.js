@@ -3,14 +3,17 @@ module.exports = {
         let roomTarget = Game.flags.Attack;
         let roomRally = Game.flags.Rally;
         let commenceAttack = Game.flags.War;
+        let die = Game.flags.Suicide;
+        if (die != undefined){
+        	creep.suicide();
+		}
         let targetCreep = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
             filter: !{owner: {username: "Isktrasow"}} &&
                 !{owner: {username: "Centanoul"}}
         });
 
         let targetStruc = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES, {
-            filter: !{owner: {username: "Isktrasow"}} &&
-                !{owner: {username: "Centanoul"}}
+            filter: s => s.structureType != STRUCTURE_CONTROLLER
         });
         switch (true) {
             case (commenceAttack != undefined &&
@@ -24,7 +27,7 @@ module.exports = {
     }
 };
 
-function attackRally(creep, roomRally, roomTarget){
+function attackRally(creep, roomRally, roomTarget, commenceAttack, targetCreep, targetStruc){
 	if (creep.pos.roomName != roomRally.pos.roomName){
 		creep.travelTo(roomRally);
 	} else {
@@ -42,11 +45,14 @@ function attackRally(creep, roomRally, roomTarget){
 	}
 }
 
-function attackTarget(creep, roomTarget, targetCreep, targetStruc){
+function attackTarget(creep, roomRally, roomTarget, commenceAttack, targetCreep, targetStruc){
 	if (creep.pos.roomName != roomTarget.pos.roomName){
-		creep.moveTo(roomTarget.pos, {ignoreCreeps: true});
+		creep.travelTo(creep.pos.findClosestByRange(creep.room.findExitTo(roomTarget.pos.roomName)), {ignoreCreeps: true});
+		console.log("not in room");
+
 	} else {
 		if (targetStruc != undefined){
+			console.log(JSON.stringify(targetStruc));
 			if (creep.attack(targetStruc) == ERR_NOT_IN_RANGE){
 				creep.attack(targetCreep);
 				creep.moveTo(targetStruc);
@@ -57,9 +63,10 @@ function attackTarget(creep, roomTarget, targetCreep, targetStruc){
 					creep.moveTo(targetCreep);
 				}
 			} else {
-				// End War
+				/* End War
 				Game.flags.Attack.remove();
 				Game.flags.War.remove();
+				*/
 			}
 		}
 	}
